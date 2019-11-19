@@ -10,12 +10,12 @@ import UIKit
 
 protocol LoadOperationDelegate {
     var images: [ImageViewModel] { get set }
-    var flickrImages: [ImageModel] { get set }
+    var flickrData: [ImageModel] { get set }
 }
 
 class LoadOperation: Operation {
-    let interactor: InteractorInput
-    var searchingString: String?
+    private let interactor: InteractorInput
+    private var searchingString: String?
     var delegate: LoadOperationDelegate?
     static var page = 1
     
@@ -47,31 +47,7 @@ class LoadOperation: Operation {
             return
         }
         interactor.loadImageList(by: searchingString!, at: page) { (models) in
-            delegate.flickrImages = models
-        }
-    }
-    
-    private func loadImages() {
-        guard var delegate = self.delegate else {
-            return
-        }
-        for image in delegate.flickrImages {
-            if self.isCancelled {
-                return
-            }
-            let imagePath = image.path
-            self.interactor.loadImage(at: imagePath) { [weak self] image in
-                guard let self = self else {
-                    return
-                }
-                if self.isCancelled {
-                    return
-                }
-                if let image = image {
-                    let model = ImageViewModel(description: image.description, image: image)
-                    delegate.images.append(model)
-                }
-            }
+            delegate.flickrData = models
         }
     }
     

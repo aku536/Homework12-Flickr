@@ -13,6 +13,7 @@ protocol NetworkServiceInput {
     func getData(at url: URL, parameters: [AnyHashable: Any]?, completion: @escaping (Data?) -> Void)
 }
 
+/// Загрузка данных из интернета
 class NetworkService: NetworkServiceInput {
     let session: URLSession
     

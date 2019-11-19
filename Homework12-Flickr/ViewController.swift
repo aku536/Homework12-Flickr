@@ -20,6 +20,8 @@ class ViewController: UIViewController, LoadOperationDelegate {
     let reuseId = "UITableViewCellreuseId"
     let interactor: InteractorInput
     var searchingString = ""
+    var spinner = UIActivityIndicatorView()
+    let spinnerBackgroundView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     
     lazy var operation = LoadOperation(interactor: interactor, searchingString: searchingString)
     var operationQueue: OperationQueue = {
@@ -64,6 +66,15 @@ class ViewController: UIViewController, LoadOperationDelegate {
         tableView.dataSource = self
         tableView.delegate = self
         view.addSubview(tableView)
+        
+        spinnerBackgroundView.center = view.center
+        spinnerBackgroundView.backgroundColor = UIColor.blue.withAlphaComponent(0.2)
+        spinnerBackgroundView.isHidden = true
+        view.addSubview(spinnerBackgroundView)
+        
+        spinner = UIActivityIndicatorView(style: .gray)
+        spinner.center = view.center
+        view.addSubview(spinner)
     }
     
     @objc private func didChangedText(_ sender: UITextField) {
@@ -75,6 +86,8 @@ class ViewController: UIViewController, LoadOperationDelegate {
         operationQueue.isSuspended = true
         loadData(by: searchingString)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.spinnerBackgroundView.isHidden = false
+            self.spinner.startAnimating()
             self.operationQueue.isSuspended = false
         }
         
@@ -106,6 +119,8 @@ class ViewController: UIViewController, LoadOperationDelegate {
             }
         }
         group.notify(queue: DispatchQueue.main) {
+            self.spinnerBackgroundView.isHidden = true
+            self.spinner.stopAnimating()
             self.tableView.reloadData()
         }
     }
@@ -134,6 +149,8 @@ extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let lastRow = indexPath.row
         if lastRow == images.count - 1 {
+            spinnerBackgroundView.isHidden = false
+            spinner.startAnimating()
             loadNextPage()
         }
     }
@@ -144,6 +161,7 @@ extension ViewController: UITableViewDelegate {
         operation.delegate = self
         operationQueue.addOperation(operation)
     }
+    
 }
 
 extension ViewController: UITextFieldDelegate {

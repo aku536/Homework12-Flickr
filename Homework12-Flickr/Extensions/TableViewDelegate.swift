@@ -11,7 +11,7 @@ import UIKit
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let lastRow = indexPath.row // если дошли до последней ячейки, загружаем новую страницу
-        if lastRow == images.count - 1 {
+        if lastRow == images.count - 1, images.count > 17 {
             spinnerBackgroundView.isHidden = false
             spinner.startAnimating()
             loadNextPage()

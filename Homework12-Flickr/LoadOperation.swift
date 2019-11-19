@@ -17,6 +17,7 @@ class LoadOperation: Operation {
     let interactor: InteractorInput
     var searchingString: String?
     var delegate: LoadOperationDelegate?
+    static var page = 1
     
     init(interactor: InteractorInput, searchingString: String?) {
         self.searchingString = searchingString
@@ -33,7 +34,7 @@ class LoadOperation: Operation {
             return
         }
 
-        loadData()
+        loadData(at: LoadOperation.page)
         
         if self.isCancelled {
             return
@@ -41,16 +42,12 @@ class LoadOperation: Operation {
         
     }
     
-    private func loadData() {
+    private func loadData(at page: Int = 1) {
         guard (searchingString != nil), var delegate = self.delegate else {
             return
         }
-        interactor.loadImageList(by: searchingString!) { (models) in
-
-            delegate.images.removeAll()
-            delegate.flickrImages.removeAll()
+        interactor.loadImageList(by: searchingString!, at: page) { (models) in
             delegate.flickrImages = models
-
         }
     }
     

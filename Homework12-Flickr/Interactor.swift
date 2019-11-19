@@ -9,7 +9,7 @@
 import UIKit
 
 protocol InteractorInput {
-    func loadImageList(by searchngString: String, completion: @escaping([ImageModel]) -> Void)
+    func loadImageList(by searchngString: String, at page: Int, completion: @escaping([ImageModel]) -> Void)
     func loadImage(at path: String, completion: @escaping (UIImage?) -> Void)
 }
 
@@ -21,8 +21,8 @@ class Interactor: InteractorInput {
         self.networkService = networkService
     }
     
-    func loadImageList(by searchString: String, completion: @escaping([ImageModel]) -> Void) {
-        let url = API.searchPath(text: searchString, extras: "url_m")
+    func loadImageList(by searchString: String, at page: Int = 1,completion: @escaping([ImageModel]) -> Void) {
+        let url = API.searchPath(text: searchString, extras: "url_m", page: page)
         networkService.getData(at: url, parameters: nil) { data in
             guard let data = data else {
                 completion([])

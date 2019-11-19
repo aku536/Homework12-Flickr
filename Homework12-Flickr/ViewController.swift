@@ -19,8 +19,9 @@ class ViewController: UIViewController, LoadOperationDelegate {
     }
     let reuseId = "UITableViewCellreuseId"
     let interactor: InteractorInput
+    var searchingString = ""
     
-    lazy var operation = LoadOperation(interactor: interactor, searchingString: nil)
+    lazy var operation = LoadOperation(interactor: interactor, searchingString: searchingString)
     var operationQueue: OperationQueue = {
         let queue = OperationQueue()
         queue.name = "com.download.queue"
@@ -61,13 +62,18 @@ class ViewController: UIViewController, LoadOperationDelegate {
                                  height: view.frame.height - textFieldHeight)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseId)
         tableView.dataSource = self
+        tableView.delegate = self
         view.addSubview(tableView)
     }
     
     @objc private func didChangedText(_ sender: UITextField) {
+        guard sender.text != nil else {
+            return
+        }
+        searchingString = sender.text!
         operationQueue.cancelAllOperations()
         operationQueue.isSuspended = true
-        loadData(by: sender.text!)
+        loadData(by: searchingString)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.operationQueue.isSuspended = false
         }
@@ -75,8 +81,11 @@ class ViewController: UIViewController, LoadOperationDelegate {
     }
     
     private func loadData(by searchingString: String) {
+        LoadOperation.page = 1
         operation = LoadOperation(interactor: self.interactor, searchingString: searchingString)
         operation.delegate = self
+        flickrImages.removeAll()
+        images.removeAll()
         operationQueue.addOperation(operation)
     }
     
@@ -125,8 +134,15 @@ extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let lastRow = indexPath.row
         if lastRow == images.count - 1 {
-            loadImages()
+            loadNextPage()
         }
+    }
+    
+    private func loadNextPage() {
+        LoadOperation.page += 1
+        operation = LoadOperation(interactor: self.interactor, searchingString: searchingString)
+        operation.delegate = self
+        operationQueue.addOperation(operation)
     }
 }
 

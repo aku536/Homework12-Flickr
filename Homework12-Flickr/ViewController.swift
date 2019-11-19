@@ -68,7 +68,7 @@ class ViewController: UIViewController, LoadOperationDelegate {
         operationQueue.cancelAllOperations()
         operationQueue.isSuspended = true
         loadData(by: sender.text!)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.operationQueue.isSuspended = false
         }
         
@@ -82,15 +82,15 @@ class ViewController: UIViewController, LoadOperationDelegate {
     
     private func loadImages() {
         let group = DispatchGroup()
-        for image in flickrImages {
+        for flickrImage in flickrImages {
             group.enter()
-            interactor.loadImage(at: image.path) { [weak self] image in
+            interactor.loadImage(at: flickrImage.path) { [weak self] image in
                 guard let image = image else {
                     group.leave()
                     return
                 }
                 
-                let model = ImageViewModel(description: image.description, image: image)
+                let model = ImageViewModel(description: flickrImage.description, image: image)
                 self?.images.append(model)
                 group.leave()
                 

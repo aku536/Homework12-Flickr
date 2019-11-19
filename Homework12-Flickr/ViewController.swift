@@ -8,12 +8,25 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, LoadOperationDelegate {
+    
     let tableView = UITableView()
     var images: [ImageViewModel] = []
-    var flickrImages = [ImageModel]()
+    var flickrImages = [ImageModel]() {
+        didSet {
+            loadImages()
+        }
+    }
     let reuseId = "UITableViewCellreuseId"
     let interactor: InteractorInput
+    
+    lazy var operation = LoadOperation(interactor: interactor, searchingString: nil)
+    var operationQueue: OperationQueue = {
+        let queue = OperationQueue()
+        queue.name = "com.download.queue"
+        queue.maxConcurrentOperationCount = 1
+        return queue
+    }()
     
     init(interactor: InteractorInput) {
         self.interactor = interactor
@@ -52,31 +65,42 @@ class ViewController: UIViewController {
     }
     
     @objc private func didChangedText(_ sender: UITextField) {
+        operationQueue.cancelAllOperations()
+        operationQueue.isSuspended = true
         loadData(by: sender.text!)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.operationQueue.isSuspended = false
+        }
+        
     }
     
-    private func loadData(by string: String) {
-        interactor.loadImageList(by: string) { (models) in
-            
-            self.images.removeAll()
-            self.flickrImages.removeAll()
-            self.flickrImages = models.suffix(100)
-            
-            
-            for fImage in self.flickrImages {
-                let imagePath = fImage.path
-                self.interactor.loadImage(at: imagePath) { [weak self] image in
-                    if let image = image {
-                        let model = ImageViewModel(description: fImage.description, image: image)
-                        self?.images.append(model)
-                        DispatchQueue.main.async {
-                            self?.tableView.reloadData()
-                        }
-                    }
+    private func loadData(by searchingString: String) {
+        operation = LoadOperation(interactor: self.interactor, searchingString: searchingString)
+        operation.delegate = self
+        operationQueue.addOperation(operation)
+    }
+    
+    private func loadImages() {
+        let group = DispatchGroup()
+        for image in flickrImages {
+            group.enter()
+            interactor.loadImage(at: image.path) { [weak self] image in
+                guard let image = image else {
+                    group.leave()
+                    return
                 }
+                
+                let model = ImageViewModel(description: image.description, image: image)
+                self?.images.append(model)
+                group.leave()
+                
             }
         }
+        group.notify(queue: DispatchQueue.main) {
+            self.tableView.reloadData()
+        }
     }
+    
 }
 
 extension ViewController: UITableViewDataSource {
@@ -97,8 +121,17 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
-extension ViewController: UITextFieldDelegate {
+extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let lastRow = indexPath.row
+        if lastRow == images.count - 1 {
+            loadImages()
+        }
+    }
+}
 
+extension ViewController: UITextFieldDelegate {
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

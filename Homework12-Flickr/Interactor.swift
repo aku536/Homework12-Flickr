@@ -44,7 +44,10 @@ class Interactor: InteractorInput {
     
     func loadImage(at path: String, completion: @escaping (UIImage?) -> Void) {
         networkService.getData(at: path, parameters: nil) { data in
-            guard let data = data else { return }
+            guard let data = data else {
+                completion(nil)
+                return
+            }
             let image = UIImage(data: data)
             completion(image)
         }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		021CDA892382CB3500BF2E75 /* LoadOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021CDA882382CB3500BF2E75 /* LoadOperation.swift */; };
 		0299460A237FFA7500717720 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02994609237FFA7500717720 /* AppDelegate.swift */; };
 		0299460C237FFA7500717720 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0299460B237FFA7500717720 /* ViewController.swift */; };
 		02994611237FFA7600717720 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02994610237FFA7600717720 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		021CDA882382CB3500BF2E75 /* LoadOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadOperation.swift; sourceTree = "<group>"; };
 		02994606237FFA7500717720 /* Homework12-Flickr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Homework12-Flickr.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02994609237FFA7500717720 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0299460B237FFA7500717720 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				0299461F237FFC2600717720 /* NetworkService.swift */,
 				02994621237FFC3B00717720 /* ImageModel.swift */,
 				02994623237FFC5900717720 /* SessionFactory.swift */,
+				021CDA882382CB3500BF2E75 /* LoadOperation.swift */,
 				02994610237FFA7600717720 /* Assets.xcassets */,
 				02994612237FFA7600717720 /* LaunchScreen.storyboard */,
 				02994615237FFA7600717720 /* Info.plist */,
@@ -153,6 +156,7 @@
 				0299461E237FFC0600717720 /* API.swift in Sources */,
 				02994624237FFC5900717720 /* SessionFactory.swift in Sources */,
 				0299460A237FFA7500717720 /* AppDelegate.swift in Sources */,
+				021CDA892382CB3500BF2E75 /* LoadOperation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

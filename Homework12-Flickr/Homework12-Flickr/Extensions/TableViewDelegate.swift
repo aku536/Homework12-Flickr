@@ -17,13 +17,12 @@ extension ViewController: UITableViewDelegate {
             loadNextPage()
         }
     }
-    
+
     /// Загружает следующую страницу с api
     private func loadNextPage() {
-        LoadOperation.page += 1 // увеличиваем счетчик страниц
-        operation = LoadOperation(interactor: self.interactor, searchingString: searchingString)
-        operation.delegate = self
-        operationQueue.addOperation(operation)
+        page += 1
+        let request = Flickr.ImageModel.Request(searchingString: searchingString, page: page)
+        interactor?.loadImagesData(request: request)
     }
-    
+
 }

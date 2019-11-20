@@ -8,17 +8,12 @@
 
 import UIKit
 
-protocol NetworkServiceInput {
-    func getData(at path: String, parameters: [AnyHashable: Any]?, completion: @escaping (Data?) -> Void)
-    func getData(at url: URL, parameters: [AnyHashable: Any]?, completion: @escaping (Data?) -> Void)
-}
-
 /// Загрузка данных из интернета
-class NetworkService: NetworkServiceInput {
+class Worker {
     let session: URLSession
     
-    init(session: URLSession) {
-        self.session = session
+    init() {
+        self.session = SessionFactory().createDefaultSession()
     }
     
     func getData(at path: String, parameters: [AnyHashable: Any]?, completion: @escaping (Data?) -> Void) {

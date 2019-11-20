@@ -8,49 +8,40 @@
 
 import UIKit
 
-class ViewController: UIViewController, LoadOperationDelegate {
+/// Логика viewController
+protocol FlickrDisplayLogic: class {
+    func displayImages(viewModel: Flickr.ImageModel.ViewModel)
+}
+
+class ViewController: UIViewController, FlickrDisplayLogic {
     
     private let tableView = UITableView()
     let spinner = UIActivityIndicatorView(style: .gray)
     let spinnerBackgroundView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-    
-    var images: [ImageViewModel] = [] // массив изображений
-    var flickrData = [ImageModel]() { // массив с url, когда обновляется - загружаем картинки
-        didSet {
-            loadImages()
-        }
-    }
-    var searchingString = ""
     let reuseId = "UITableViewCellreuseId"
-    let interactor: InteractorInput
+    var searchingString = "" // слово для поиска
+    var page = 1 // страница, загружаемая с api
     
-    // Выполняет загрузку данных с api
-    lazy var operation = LoadOperation(interactor: interactor, searchingString: searchingString)
-    var operationQueue: OperationQueue = {
-        let queue = OperationQueue()
-        queue.name = "com.download.queue"
-        queue.maxConcurrentOperationCount = 1
-        return queue
+    var interactor: FlickrBusinessLogic?
+    
+    var images = [ImageViewModel]()
+    
+    let operationQueue: OperationQueue = {
+       let opQueue = OperationQueue()
+        opQueue.isSuspended = true
+        opQueue.maxConcurrentOperationCount = 1
+        opQueue.name = "com.OperationQueue"
+        return opQueue
     }()
     
-    init(interactor: InteractorInput) {
-        self.interactor = interactor
-        super.init(nibName: nil, bundle: nil)
-        view.backgroundColor = .white
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("Метод не реализован")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    override func viewWillAppear(_ animated: Bool) {
         setupUI()
     }
     
     // MARK: - Настройка UI
     private func setupUI() {
+        view.backgroundColor = .white
+        
         let textField = UITextField()
         let textFieldHeight: CGFloat = 50
         textField.frame = CGRect(x: 20, y: 50, width: view.frame.width-50, height: textFieldHeight)
@@ -79,59 +70,39 @@ class ViewController: UIViewController, LoadOperationDelegate {
     }
     
     
-    /// Срабатывает при вводе текста. Добавляет операцию загрузки в очередь через 0,5 сек. Все другие операции отменяются
+    /// Когда вводится текст, отменяем все операции и добавляем загрузку по ключевому слову через секунду
     ///
     /// - Parameter sender: UITextField
     @objc private func didChangedText(_ sender: UITextField) {
-        guard sender.text != nil else {
+        operationQueue.isSuspended = true
+        operationQueue.cancelAllOperations()
+        guard (sender.text != nil) else {
             return
         }
         searchingString = sender.text!
-        operationQueue.cancelAllOperations()
-        operationQueue.isSuspended = true
-        loadData(by: searchingString)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        operationQueue.addOperation {
+            self.loadImages(by: self.searchingString)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.spinnerBackgroundView.isHidden = false
             self.spinner.startAnimating()
             self.operationQueue.isSuspended = false
         }
     }
-    
-    /// Создает операцию загрузки данных и добавляет её в очередь
+
+    /// Создаем запрос к интерактору поиск по ключевому слову и отображение первой странице
     ///
-    /// - Parameter searchingString: ключевое слово для поиска
-    private func loadData(by searchingString: String) {
-        LoadOperation.page = 1 // Загружаем первую страницу с API
-        operation = LoadOperation(interactor: self.interactor, searchingString: searchingString)
-        operation.delegate = self
-        flickrData.removeAll()
-        images.removeAll()
-        operationQueue.addOperation(operation)
+    /// - Parameter searchingString: слово для поиска
+    private func loadImages(by searchingString: String) {
+        let request = Flickr.ImageModel.Request(searchingString: searchingString, page: 1)
+        interactor?.loadImagesData(request: request)
     }
     
-    
-    /// Загружает изображения и обновляет таблицу
-    private func loadImages() {
-        let group = DispatchGroup()
-        for flickrImage in flickrData {
-            group.enter()
-            interactor.loadImage(at: flickrImage.path) { [weak self] image in
-                guard let image = image else {
-                    group.leave()
-                    return
-                }
-                
-                let model = ImageViewModel(description: flickrImage.description, image: image)
-                self?.images.append(model)
-                group.leave()
-                
-            }
-        }
-        group.notify(queue: DispatchQueue.main) {
-            self.spinnerBackgroundView.isHidden = true
-            self.spinner.stopAnimating()
-            self.tableView.reloadData()
-        }
+    func displayImages(viewModel: Flickr.ImageModel.ViewModel) {
+        images = viewModel.images
+        spinnerBackgroundView.isHidden = true
+        spinner.stopAnimating()
+        tableView.reloadData()
     }
     
 }

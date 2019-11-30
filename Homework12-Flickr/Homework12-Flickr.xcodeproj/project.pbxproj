@@ -7,13 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		024390712386C561008B3D4C /* CoreDataWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024390702386C561008B3D4C /* CoreDataWorker.swift */; };
+		024390792386CF3B008B3D4C /* MOImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024390782386CF3B008B3D4C /* MOImageData.swift */; };
+		024BDC342392A4BD0087174D /* LoadImagesOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024BDC332392A4BD0087174D /* LoadImagesOperation.swift */; };
+		027CBD142387EC81001A4223 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 027CBD122387EC81001A4223 /* Model.xcdatamodeld */; };
+		027CBD182388016A001A4223 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 027CBD172388016A001A4223 /* Router.swift */; };
 		0299460A237FFA7500717720 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02994609237FFA7500717720 /* AppDelegate.swift */; };
 		0299460C237FFA7500717720 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0299460B237FFA7500717720 /* ViewController.swift */; };
 		02994611237FFA7600717720 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02994610237FFA7600717720 /* Assets.xcassets */; };
 		02994614237FFA7600717720 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02994612237FFA7600717720 /* LaunchScreen.storyboard */; };
 		0299461C237FFBE700717720 /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0299461B237FFBE700717720 /* Interactor.swift */; };
 		0299461E237FFC0600717720 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0299461D237FFC0600717720 /* API.swift */; };
-		02994620237FFC2600717720 /* Worker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0299461F237FFC2600717720 /* Worker.swift */; };
+		02994620237FFC2600717720 /* NetworkWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0299461F237FFC2600717720 /* NetworkWorker.swift */; };
 		02994624237FFC5900717720 /* SessionFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02994623237FFC5900717720 /* SessionFactory.swift */; };
 		02BD561323848228003A79EB /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BD561223848228003A79EB /* TableViewDataSource.swift */; };
 		02BD561523848265003A79EB /* TableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02BD561423848265003A79EB /* TableViewDelegate.swift */; };
@@ -22,6 +27,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		024390702386C561008B3D4C /* CoreDataWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataWorker.swift; sourceTree = "<group>"; };
+		024390782386CF3B008B3D4C /* MOImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOImageData.swift; sourceTree = "<group>"; };
+		024BDC332392A4BD0087174D /* LoadImagesOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadImagesOperation.swift; sourceTree = "<group>"; };
+		027CBD132387EC81001A4223 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		027CBD172388016A001A4223 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		02994606237FFA7500717720 /* Homework12-Flickr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Homework12-Flickr.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02994609237FFA7500717720 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0299460B237FFA7500717720 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -30,7 +40,7 @@
 		02994615237FFA7600717720 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0299461B237FFBE700717720 /* Interactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
 		0299461D237FFC0600717720 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
-		0299461F237FFC2600717720 /* Worker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Worker.swift; sourceTree = "<group>"; };
+		0299461F237FFC2600717720 /* NetworkWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkWorker.swift; sourceTree = "<group>"; };
 		02994623237FFC5900717720 /* SessionFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionFactory.swift; sourceTree = "<group>"; };
 		02BD561223848228003A79EB /* TableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
 		02BD561423848265003A79EB /* TableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +59,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		027CBD152388010A001A4223 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				027CBD122387EC81001A4223 /* Model.xcdatamodeld */,
+				024390782386CF3B008B3D4C /* MOImageData.swift */,
+				02BD561823853468003A79EB /* Models.swift */,
+			);
+			name = Models;
+			path = Services;
+			sourceTree = "<group>";
+		};
+		027CBD1623880121001A4223 /* Workers */ = {
+			isa = PBXGroup;
+			children = (
+				0299461F237FFC2600717720 /* NetworkWorker.swift */,
+				024390702386C561008B3D4C /* CoreDataWorker.swift */,
+			);
+			name = Workers;
+			sourceTree = "<group>";
+		};
 		029945FD237FFA7500717720 = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +100,7 @@
 			children = (
 				02994609237FFA7500717720 /* AppDelegate.swift */,
 				02BD561123848207003A79EB /* Extensions */,
+				027CBD152388010A001A4223 /* Models */,
 				02BD560F23842CF9003A79EB /* Modules */,
 				02BD561023842D11003A79EB /* Services */,
 				02994610237FFA7600717720 /* Assets.xcassets */,
@@ -85,8 +116,8 @@
 				0299460B237FFA7500717720 /* ViewController.swift */,
 				0299461B237FFBE700717720 /* Interactor.swift */,
 				02BD561623853401003A79EB /* Presenter.swift */,
-				0299461F237FFC2600717720 /* Worker.swift */,
-				02BD561823853468003A79EB /* Models.swift */,
+				027CBD172388016A001A4223 /* Router.swift */,
+				027CBD1623880121001A4223 /* Workers */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -96,6 +127,7 @@
 			children = (
 				0299461D237FFC0600717720 /* API.swift */,
 				02994623237FFC5900717720 /* SessionFactory.swift */,
+				024BDC332392A4BD0087174D /* LoadImagesOperation.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -182,13 +214,18 @@
 				02BD561523848265003A79EB /* TableViewDelegate.swift in Sources */,
 				02BD561723853401003A79EB /* Presenter.swift in Sources */,
 				02BD561323848228003A79EB /* TableViewDataSource.swift in Sources */,
-				02994620237FFC2600717720 /* Worker.swift in Sources */,
+				02994620237FFC2600717720 /* NetworkWorker.swift in Sources */,
 				0299461C237FFBE700717720 /* Interactor.swift in Sources */,
 				0299460C237FFA7500717720 /* ViewController.swift in Sources */,
 				0299461E237FFC0600717720 /* API.swift in Sources */,
 				02BD561923853468003A79EB /* Models.swift in Sources */,
 				02994624237FFC5900717720 /* SessionFactory.swift in Sources */,
 				0299460A237FFA7500717720 /* AppDelegate.swift in Sources */,
+				024BDC342392A4BD0087174D /* LoadImagesOperation.swift in Sources */,
+				027CBD182388016A001A4223 /* Router.swift in Sources */,
+				024390712386C561008B3D4C /* CoreDataWorker.swift in Sources */,
+				027CBD142387EC81001A4223 /* Model.xcdatamodeld in Sources */,
+				024390792386CF3B008B3D4C /* MOImageData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +417,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		027CBD122387EC81001A4223 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				027CBD132387EC81001A4223 /* Model.xcdatamodel */,
+			);
+			currentVersion = 027CBD132387EC81001A4223 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 029945FE237FFA7500717720 /* Project object */;
 }

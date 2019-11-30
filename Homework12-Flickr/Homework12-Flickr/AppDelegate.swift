@@ -16,25 +16,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = viewController
-        window?.makeKeyAndVisible()
-        
         setup()
         
+        let navigationController = UINavigationController(rootViewController: viewController)
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
+ 
         return true
     }
     
     private func setup() {
         let interactor = Interactor()
         let presenter = Presenter()
-        let worker = Worker()
+        let networkWorker = NetworkWorker()
+        let coreDataWorker = CoreDataWorker()
+        let router = Router()
         viewController.interactor = interactor
+        viewController.router = router
         interactor.presenter = presenter
         presenter.viewController = viewController
-        interactor.worker = worker
+        interactor.networkWorker = networkWorker
+        interactor.coreDataWorker = coreDataWorker
+        router.viewController = viewController
     }
     
 }
-
-

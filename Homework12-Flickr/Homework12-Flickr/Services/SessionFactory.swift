@@ -8,6 +8,7 @@
 
 import UIKit
 
+// Создающий метод
 class SessionFactory {
     func createDefaultSession() -> URLSession {
         let configuration = URLSessionConfiguration.default

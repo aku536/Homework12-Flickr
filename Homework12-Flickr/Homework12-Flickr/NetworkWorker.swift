@@ -9,13 +9,13 @@
 import UIKit
 
 /// Загрузка данных из интернета
-class Worker {
+class NetworkWorker {
     let session: URLSession
     
     init() {
         self.session = SessionFactory().createDefaultSession()
     }
-    
+
     func getData(at path: String, parameters: [AnyHashable: Any]?, completion: @escaping (Data?) -> Void) {
         guard let url = URL(string: path) else {
             completion(nil)

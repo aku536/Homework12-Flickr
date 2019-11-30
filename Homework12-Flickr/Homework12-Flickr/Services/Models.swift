@@ -9,8 +9,8 @@
 import UIKit
 
 enum Flickr {
-    // MARK: Use cases
     
+    /// Модель для передачи данных между VIP для загрузки с сети
     enum ImageModel {
         struct Request {
             var searchingString: String
@@ -21,6 +21,22 @@ enum Flickr {
         }
         struct ViewModel {
             var images: [ImageViewModel]
+        }
+    }
+    
+    /// Модель для передачи данных между VIP для загрузки из памяти
+    enum ImageModelFromMemory {
+        struct Request {
+        }
+        struct Response {
+            var images: [ImageViewModel]
+            var searchingString: String
+            var page: Int
+        }
+        struct ViewModel {
+            var images: [ImageViewModel]
+            var searchingString: String
+            var page: Int
         }
     }
 }

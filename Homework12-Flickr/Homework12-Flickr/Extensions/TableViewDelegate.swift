@@ -9,6 +9,13 @@
 import UIKit
 
 extension ViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else {
+            return
+        }
+        router?.setupImageViewController(cell.imageView!.image!, cell.textLabel!.text!)
+    }
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let lastRow = indexPath.row // если дошли до последней ячейки, загружаем новую страницу
         if lastRow == images.count - 1, images.count > 17 {
@@ -22,7 +29,7 @@ extension ViewController: UITableViewDelegate {
     private func loadNextPage() {
         page += 1
         let request = Flickr.ImageModel.Request(searchingString: searchingString, page: page)
-        interactor?.loadImagesData(request: request)
+        interactor?.dowloadImagesData(request: request)
     }
 
 }
